@@ -1,7 +1,7 @@
 <?php include 'database.php';?>
 <?php
 // creating select query
-$query = 'SELECT * from shouts';
+$query = "SELECT * from shouts ORDER BY id DESC";
 $shouts = mysqli_query($con, $query);
 ?>
 <!DOCTYPE html>
@@ -22,11 +22,16 @@ $shouts = mysqli_query($con, $query);
         <div id="shouts">
             <ul>
                 <?php while($row = mysqli_fetch_assoc($shouts)) : ?>
-                    <li class="shout"><span><?php echo $row['time'] ?> - </span><strong><?php echo $row['user'] ?></strong>: <?php echo $row['message'] ?></li>
+                <li class="shout"><span><?php echo $row['time'] ?> - </span><strong><?php echo $row['user'] ?></strong>:
+                    <?php echo $row['message'] ?></li>
                 <?php endwhile; ?>
             </ul>
         </div>
         <div id="input">
+            <?php if(isset($_GET['error'])):?>
+            <div class="error"><?php echo $_GET['error']; ?></div>
+            <?php endif; ?>
+
             <form action="process.php" method="post">
                 <input type="text" name="user" placeholder="Enter Your Name">
                 <input type="text" name="message" placeholder="Enter A message">
